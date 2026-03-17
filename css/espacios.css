@@ -1,6 +1,6 @@
-@import url('dashboard.css');
+@import url('base.css');
 
-/* Espacios Grid */
+/* ===== ESPACIOS GRID ===== */
 .espacios-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -9,16 +9,17 @@
 }
 
 .espacio-card {
-    background: white;
-    border-radius: 15px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--border-light);
 }
 
 .espacio-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
 }
 
 .espacio-card .card-header {
@@ -27,19 +28,19 @@
     gap: 15px;
     margin-bottom: 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-light);
 }
 
 .espacio-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md);
     background: rgba(102, 126, 234, 0.1);
-    color: #667eea;
+    color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 .espacio-info {
@@ -47,32 +48,48 @@
 }
 
 .espacio-info h3 {
-    font-size: 16px;
-    color: #333;
+    font-size: 18px;
+    color: var(--text-dark);
     margin-bottom: 5px;
 }
 
 .espacio-info .capacidad {
     font-size: 13px;
-    color: #999;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
+/* ===== STATUS BADGES ESPECÍFICOS ===== */
 .status-badge.available {
     background: rgba(46, 204, 113, 0.1);
-    color: #2ecc71;
+    color: var(--success);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
 }
 
 .status-badge.occupied {
     background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
+    color: var(--danger);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
 }
 
 .status-badge.maintenance {
     background: rgba(241, 196, 15, 0.1);
-    color: #f1c40f;
+    color: var(--warning);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
 }
 
 .espacio-card .card-body {
@@ -83,35 +100,39 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #666;
-    font-size: 13px;
-    margin-bottom: 8px;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .espacio-card .card-body p i {
     width: 16px;
-    color: #999;
+    color: var(--text-muted);
 }
 
 .espacio-card .card-footer {
     display: flex;
     gap: 8px;
     padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--border-light);
 }
 
 .espacio-card .card-footer .action-btn {
     flex: 1;
+    width: auto;
+    padding: 8px 12px;
+    gap: 5px;
 }
 
+/* ===== ACTION BUTTONS ESPECÍFICOS ===== */
 .action-btn.reserve {
     background: rgba(102, 126, 234, 0.1);
-    color: #667eea;
+    color: var(--primary);
 }
 
 .action-btn.reserve:hover:not(:disabled) {
-    background: #667eea;
-    color: white;
+    background: var(--primary);
+    color: var(--white);
 }
 
 .action-btn.reserve:disabled {
@@ -119,7 +140,7 @@
     cursor: not-allowed;
 }
 
-/* Calendar Controls */
+/* ===== CALENDAR CONTROLS ===== */
 .calendar-controls {
     margin-bottom: 20px;
     display: flex;
@@ -127,13 +148,14 @@
 }
 
 #calendar {
-    background: white;
+    background: var(--white);
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
 }
 
-/* Actividades List */
+/* ===== ACTIVIDADES LIST ===== */
 .actividades-list {
     display: flex;
     flex-direction: column;
@@ -141,33 +163,35 @@
 }
 
 .actividad-item {
-    background: white;
-    border-radius: 15px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
     padding: 20px;
     display: flex;
     align-items: center;
     gap: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
 }
 
 .actividad-time {
-    min-width: 120px;
+    min-width: 140px;
     text-align: center;
     padding-right: 20px;
-    border-right: 2px solid #f0f0f0;
+    border-right: 2px solid var(--border-light);
 }
 
 .actividad-time .date {
     display: block;
     font-weight: 600;
-    color: #333;
+    color: var(--text-dark);
     margin-bottom: 5px;
+    font-size: 14px;
 }
 
 .actividad-time .time {
     display: block;
-    font-size: 12px;
-    color: #999;
+    font-size: 13px;
+    color: var(--text-muted);
 }
 
 .actividad-info {
@@ -176,7 +200,7 @@
 
 .actividad-info h4 {
     font-size: 16px;
-    color: #333;
+    color: var(--text-dark);
     margin-bottom: 8px;
 }
 
@@ -184,34 +208,83 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #666;
+    color: var(--text-light);
     font-size: 13px;
     margin-bottom: 5px;
 }
 
 .actividad-info p i {
     width: 16px;
-    color: #999;
+    color: var(--text-muted);
 }
 
 .actividad-status {
-    padding: 5px 12px;
-    border-radius: 20px;
+    padding: 6px 15px;
+    border-radius: 25px;
     font-size: 12px;
     font-weight: 500;
 }
 
 .actividad-status.completed {
     background: rgba(46, 204, 113, 0.1);
-    color: #2ecc71;
+    color: var(--success);
 }
 
 .actividad-status.scheduled {
     background: rgba(52, 152, 219, 0.1);
-    color: #3498db;
+    color: var(--info);
 }
 
-/* Responsive */
+/* ===== TABS ===== */
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    background: var(--white);
+    padding: 10px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 12px 25px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.tab-btn i {
+    font-size: 18px;
+}
+
+.tab-btn:hover {
+    background: #f8f9fa;
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--white);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .espacios-grid {
         grid-template-columns: 1fr;
@@ -229,7 +302,7 @@
         padding-right: 0;
         padding-bottom: 10px;
         border-right: none;
-        border-bottom: 2px solid #f0f0f0;
+        border-bottom: 2px solid var(--border-light);
     }
     
     .calendar-controls {
@@ -239,6 +312,15 @@
     #calendar {
         padding: 10px;
         font-size: 12px;
+    }
+    
+    .tabs-container {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 
@@ -253,5 +335,13 @@
     
     .actividad-status {
         align-self: flex-start;
+    }
+    
+    .actividad-time .date {
+        font-size: 13px;
+    }
+    
+    .actividad-time .time {
+        font-size: 12px;
     }
 }
