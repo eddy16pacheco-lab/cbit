@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>SIGACBIT - Inventario</title>
+    <link rel="stylesheet" href="css/inventario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-laptop-code logo-icon"></i>
+            <span class="sidebar-title">SIGACBIT</span>
+        </div>
+
+        <div class="user-info">
+            <img src="https://ui-avatars.com/api/?name=Eddy+Pacheco&background=667eea&color=fff&size=128" alt="Avatar">
+            <div>
+                <span class="user-name">Eddy Pacheco</span>
+                <span class="user-role admin-role">Administrador</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="usuarios.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="equipos.html" class="nav-item">
+                <i class="fas fa-desktop"></i>
+                <span>Equipos</span>
+            </a>
+            <a href="inventario.html" class="nav-item active">
+                <i class="fas fa-boxes"></i>
+                <span>Inventario</span>
+            </a>
+            <a href="espacios.html" class="nav-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Espacios</span>
+            </a>
+            <a href="solicitudes.html" class="nav-item">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Solicitudes</span>
+            </a>
+            <a href="mantenimiento.html" class="nav-item">
+                <i class="fas fa-tools"></i>
+                <span>Mantenimiento</span>
+            </a>
+            <a href="reportes.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reportes</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+            <a href="login.html" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="main-content" id="mainContent">
+        <header class="top-bar">
+            <div class="page-title">
+                <h1><i class="fas fa-boxes"></i> Inventario de Equipos</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar por serial o equipo...">
+                </div>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Tarjetas de resumen -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">142</span>
+                        <span class="stat-label">Total Equipos</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon operational">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">128</span>
+                        <span class="stat-label">Operativos</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon maintenance">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">8</span>
+                        <span class="stat-label">En Mantenimiento</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon non-operational">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">6</span>
+                        <span class="stat-label">No Operativos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="actions-bar">
+                <button class="btn-primary" onclick="openInventarioModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    Agregar al Inventario
+                </button>
+                <button class="btn-secondary" onclick="openImportModal()">
+                    <i class="fas fa-file-import"></i>
+                    Importar
+                </button>
+                <button class="btn-secondary" onclick="exportData()">
+                    <i class="fas fa-file-export"></i>
+                    Exportar
+                </button>
+                <div class="filters">
+                    <select class="filter-select" id="filterEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="Operativo">Operativo</option>
+                        <option value="Mantenimiento">Mantenimiento</option>
+                        <option value="No operativo">No operativo</option>
+                    </select>
+                    <select class="filter-select" id="filterUbicacion">
+                        <option value="">Todas las ubicaciones</option>
+                        <option value="1">Aula Principal</option>
+                        <option value="2">Laboratorio A</option>
+                        <option value="3">Sala de Proyectores</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Vista Desktop: Tabla -->
+            <div class="table-container desktop-view">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Serial</th>
+                            <th>Equipo</th>
+                            <th>Modelo</th>
+                            <th>Categoría</th>
+                            <th>Marca</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="serial">DL-OPT-2024-001</span></td>
+                            <td>Computadora Escritorio</td>
+                            <td>OptiPlex 3080</td>
+                            <td><span class="category-badge">Computadora</span></td>
+                            <td>Dell</td>
+                            <td>Aula Principal - Estación 1</td>
+                            <td><span class="status-badge operational">Operativo</span></td>
+                            <td class="actions">
+                                <button class="action-btn edit" onclick="editInventario(1)"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn view" onclick="viewHistory(1)"><i class="fas fa-history"></i></button>
+                                <button class="action-btn maintenance" onclick="sendToMaintenance(1)"><i class="fas fa-tools"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="serial">DL-LAT-3420-001</span></td>
+                            <td>Laptop Educativa</td>
+                            <td>Latitude 3420</td>
+                            <td><span class="category-badge">Computadora</span></td>
+                            <td>Dell</td>
+                            <td>Laboratorio A - Mesa 1</td>
+                            <td><span class="status-badge operational">Operativo</span></td>
+                            <td class="actions">
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn view"><i class="fas fa-history"></i></button>
+                                <button class="action-btn maintenance"><i class="fas fa-tools"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="serial">HP-LJ-404-001</span></td>
+                            <td>Impresora Láser</td>
+                            <td>LaserJet M404dn</td>
+                            <td><span class="category-badge">Impresora</span></td>
+                            <td>HP</td>
+                            <td>Oficina Administrativa</td>
+                            <td><span class="status-badge maintenance">Mantenimiento</span></td>
+                            <td class="actions">
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn view"><i class="fas fa-history"></i></button>
+                                <button class="action-btn maintenance"><i class="fas fa-tools"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="serial">EP-PL-1785-002</span></td>
+                            <td>Proyector Multimedia</td>
+                            <td>PowerLite 1785W</td>
+                            <td><span class="category-badge">Proyector</span></td>
+                            <td>Epson</td>
+                            <td>Sala Multimedia</td>
+                            <td><span class="status-badge non-operational">No operativo</span></td>
+                            <td class="actions">
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn view"><i class="fas fa-history"></i></button>
+                                <button class="action-btn maintenance"><i class="fas fa-tools"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Vista Móvil: Tarjetas -->
+            <div class="cards-container mobile-view">
+                <div class="inventario-card">
+                    <div class="card-header">
+                        <div class="serial-badge">DL-OPT-2024-001</div>
+                        <span class="status-badge operational">Operativo</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Computadora Escritorio</h3>
+                        <p class="modelo">OptiPlex 3080 - Dell</p>
+                        <p><i class="fas fa-tag"></i> <span class="category-badge">Computadora</span></p>
+                        <p><i class="fas fa-map-marker-alt"></i> Aula Principal - Estación 1</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="action-btn edit"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="action-btn view"><i class="fas fa-history"></i> Historial</button>
+                        <button class="action-btn maintenance"><i class="fas fa-tools"></i> Mant.</button>
+                    </div>
+                </div>
+
+                <div class="inventario-card">
+                    <div class="card-header">
+                        <div class="serial-badge">HP-LJ-404-001</div>
+                        <span class="status-badge maintenance">Mantenimiento</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Impresora Láser</h3>
+                        <p class="modelo">LaserJet M404dn - HP</p>
+                        <p><i class="fas fa-tag"></i> <span class="category-badge">Impresora</span></p>
+                        <p><i class="fas fa-map-marker-alt"></i> Oficina Administrativa</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="action-btn edit"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="action-btn view"><i class="fas fa-history"></i> Historial</button>
+                        <button class="action-btn maintenance"><i class="fas fa-tools"></i> Mant.</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Inventario -->
+    <div class="modal" id="inventarioModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-boxes"></i> Agregar al Inventario</h2>
+                <button class="close-modal" onclick="closeInventarioModal()">&times;</button>
+            </div>
+            <form id="inventarioForm" class="modal-form">
+                <div class="form-group">
+                    <label for="id_equipo">Modelo de Equipo</label>
+                    <select id="id_equipo" required>
+                        <option value="">Seleccionar equipo...</option>
+                        <option value="1">Computadora Escritorio - OptiPlex 3080</option>
+                        <option value="2">Laptop Educativa - Latitude 3420</option>
+                        <option value="3">Impresora Láser - LaserJet M404dn</option>
+                        <option value="4">Proyector Multimedia - PowerLite 1785W</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serial">Número de Serie</label>
+                    <input type="text" id="serial" placeholder="Ej: DL-OPT-2024-001" required>
+                    <small class="form-text">Debe ser único por equipo</small>
+                </div>
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación Física</label>
+                    <select id="ubicacion" required>
+                        <option value="">Seleccionar ubicación...</option>
+                        <option value="1">Aula Principal - Estación 1</option>
+                        <option value="2">Aula Principal - Estación 2</option>
+                        <option value="3">Laboratorio A - Mesa 1</option>
+                        <option value="4">Sala de Proyectores - Cabina</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="estado_inventario">Estado</label>
+                    <select id="estado_inventario" required>
+                        <option value="Operativo">Operativo</option>
+                        <option value="No operativo">No operativo</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeInventarioModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Historial -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-history"></i> Historial del Equipo</h2>
+                <button class="close-modal" onclick="closeHistoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="equipment-info">
+                    <h3>Computadora Escritorio - DL-OPT-2024-001</h3>
+                    <p>Modelo: OptiPlex 3080 | Marca: Dell</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-badge success">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Equipo agregado al inventario</h4>
+                            <p>Ubicación: Aula Principal - Estación 1</p>
+                            <small>15/01/2025 10:30</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge warning">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Mantenimiento preventivo</h4>
+                            <p>Limpieza y revisión general</p>
+                            <small>20/02/2025 09:15</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge info">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Cambio de ubicación</h4>
+                            <p>De Laboratorio A a Aula Principal</p>
+                            <small>05/03/2025 14:20</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-bottom-nav">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+        <a href="usuarios.html"><i class="fas fa-users"></i><span>Usuarios</span></a>
+        <a href="equipos.html"><i class="fas fa-desktop"></i><span>Equipos</span></a>
+        <a href="inventario.html" class="active"><i class="fas fa-boxes"></i><span>Invent.</span></a>
+        <a href="#"><i class="fas fa-bell"></i><span>Notif.</span></a>
+    </div>
+
+    <script>
+        function openInventarioModal() {
+            document.getElementById('inventarioModal').style.display = 'flex';
+        }
+
+        function closeInventarioModal() {
+            document.getElementById('inventarioModal').style.display = 'none';
+        }
+
+        function openImportModal() {
+            alert('Función de importar datos');
+        }
+
+        function exportData() {
+            alert('Exportando datos...');
+        }
+
+        function editInventario(id) {
+            alert('Editar inventario ID: ' + id);
+        }
+
+        function viewHistory(id) {
+            document.getElementById('historyModal').style.display = 'flex';
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        function sendToMaintenance(id) {
+            if(confirm('¿Enviar este equipo a mantenimiento?')) {
+                alert('Equipo enviado a mantenimiento');
+            }
+        }
+
+        // Toggle sidebar
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Close modals
+        window.onclick = function(event) {
+            const inventarioModal = document.getElementById('inventarioModal');
+            const historyModal = document.getElementById('historyModal');
+            
+            if (event.target == inventarioModal) {
+                inventarioModal.style.display = 'none';
+            }
+            if (event.target == historyModal) {
+                historyModal.style.display = 'none';
+            }
+        }
+
+        // Form submit
+        document.getElementById('inventarioForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Equipo agregado al inventario exitosamente');
+            closeInventarioModal();
+        });
+    </script>
+</body>
+</html>

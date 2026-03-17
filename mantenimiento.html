@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>SIGACBIT - Mantenimiento</title>
+    <link rel="stylesheet" href="css/mantenimiento.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-laptop-code logo-icon"></i>
+            <span class="sidebar-title">SIGACBIT</span>
+        </div>
+
+        <div class="user-info">
+            <img src="https://ui-avatars.com/api/?name=Eddy+Pacheco&background=667eea&color=fff&size=128" alt="Avatar">
+            <div>
+                <span class="user-name">Eddy Pacheco</span>
+                <span class="user-role admin-role">Administrador</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="usuarios.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="equipos.html" class="nav-item">
+                <i class="fas fa-desktop"></i>
+                <span>Equipos</span>
+            </a>
+            <a href="inventario.html" class="nav-item">
+                <i class="fas fa-boxes"></i>
+                <span>Inventario</span>
+            </a>
+            <a href="espacios.html" class="nav-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Espacios</span>
+            </a>
+            <a href="solicitudes.html" class="nav-item">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Solicitudes</span>
+            </a>
+            <a href="mantenimiento.html" class="nav-item active">
+                <i class="fas fa-tools"></i>
+                <span>Mantenimiento</span>
+            </a>
+            <a href="reportes.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reportes</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+            <a href="login.html" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="main-content" id="mainContent">
+        <header class="top-bar">
+            <div class="page-title">
+                <h1><i class="fas fa-tools"></i> Mantenimiento</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar reportes...">
+                </div>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Stats Cards -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">4</span>
+                        <span class="stat-label">Pendientes</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon in-progress">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">3</span>
+                        <span class="stat-label">En Progreso</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon completed">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">12</span>
+                        <span class="stat-label">Completados</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">19</span>
+                        <span class="stat-label">Totales</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions Bar -->
+            <div class="actions-bar">
+                <button class="btn-primary" onclick="openMantenimientoModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    Nuevo Reporte
+                </button>
+                <div class="filters">
+                    <select class="filter-select" id="filterTipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="Preventivo">Preventivo</option>
+                        <option value="Correctivo">Correctivo</option>
+                        <option value="Incidencia">Incidencia</option>
+                    </select>
+                    <select class="filter-select" id="filterEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Progreso">En Progreso</option>
+                        <option value="Completado">Completado</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Desktop View -->
+            <div class="table-container desktop-view">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Equipo</th>
+                            <th>Serial</th>
+                            <th>Tipo</th>
+                            <th>Reportado por</th>
+                            <th>Fecha Reporte</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#M001</td>
+                            <td>Impresora Láser</td>
+                            <td>HP-LJ-404-001</td>
+                            <td><span class="type-badge preventive">Preventivo</span></td>
+                            <td>María González</td>
+                            <td>15/03/2026</td>
+                            <td><span class="status-badge pending">Pendiente</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" onclick="viewMantenimiento(1)"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit" onclick="editMantenimiento(1)"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete" onclick="deleteMantenimiento(1)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#M002</td>
+                            <td>Laptop Educativa</td>
+                            <td>DL-LAT-3420-002</td>
+                            <td><span class="type-badge corrective">Correctivo</span></td>
+                            <td>José Martínez</td>
+                            <td>14/03/2026</td>
+                            <td><span class="status-badge progress">En Progreso</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#M003</td>
+                            <td>Proyector Multimedia</td>
+                            <td>EP-PL-1785-002</td>
+                            <td><span class="type-badge incident">Incidencia</span></td>
+                            <td>Laura Díaz</td>
+                            <td>13/03/2026</td>
+                            <td><span class="status-badge completed">Completado</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="cards-container mobile-view">
+                <div class="mantenimiento-card">
+                    <div class="card-header">
+                        <span class="mantenimiento-id">#M001</span>
+                        <span class="status-badge pending">Pendiente</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Impresora Láser</h3>
+                        <p class="serial">HP-LJ-404-001</p>
+                        <p><i class="fas fa-tag"></i> <span class="type-badge preventive">Preventivo</span></p>
+                        <p><i class="fas fa-user"></i> Reportado por: María González</p>
+                        <p><i class="fas fa-calendar"></i> 15/03/2026</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="action-btn view"><i class="fas fa-eye"></i> Ver</button>
+                        <button class="action-btn edit"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="action-btn delete"><i class="fas fa-trash"></i> Eliminar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Mantenimiento -->
+    <div class="modal" id="mantenimientoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-tools"></i> Reportar Mantenimiento</h2>
+                <button class="close-modal" onclick="closeMantenimientoModal()">&times;</button>
+            </div>
+            <form id="mantenimientoForm" class="modal-form">
+                <div class="form-group">
+                    <label for="equipo_mantenimiento">Equipo</label>
+                    <select id="equipo_mantenimiento" required>
+                        <option value="">Seleccionar equipo...</option>
+                        <option value="1">Computadora Escritorio (DL-OPT-2024-001)</option>
+                        <option value="2">Laptop Educativa (DL-LAT-3420-002)</option>
+                        <option value="3">Impresora Láser (HP-LJ-404-001)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tipo_mantenimiento">Tipo de Mantenimiento</label>
+                    <select id="tipo_mantenimiento" required>
+                        <option value="">Seleccionar tipo...</option>
+                        <option value="Preventivo">Preventivo</option>
+                        <option value="Correctivo">Correctivo</option>
+                        <option value="Incidencia">Incidencia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion_falla">Descripción de la Falla</label>
+                    <textarea id="descripcion_falla" rows="4" placeholder="Describa el problema detalladamente..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prioridad">Prioridad</label>
+                    <select id="prioridad">
+                        <option value="Baja">Baja</option>
+                        <option value="Media" selected>Media</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Crítica">Crítica</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeMantenimientoModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Reportar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Mantenimiento -->
+    <div class="modal" id="detalleMantenimientoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-clipboard-list"></i> Detalle de Mantenimiento #M001</h2>
+                <button class="close-modal" onclick="closeDetalleMantenimientoModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detalle-info">
+                    <div class="info-row">
+                        <span class="info-label">Equipo:</span>
+                        <span class="info-value">Impresora Láser (HP-LJ-404-001)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tipo:</span>
+                        <span class="type-badge preventive">Preventivo</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Reportado por:</span>
+                        <span class="info-value">María González</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Fecha:</span>
+                        <span class="info-value">15/03/2026 09:30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Prioridad:</span>
+                        <span class="priority-badge medium">Media</span>
+                    </div>
+                </div>
+
+                <div class="detalle-descripcion">
+                    <h4>Descripción de la Falla</h4>
+                    <p>La impresora no enciende correctamente. Se escucha un ruido extraño al intentar encender y los LEDs parpadean en rojo.</p>
+                </div>
+
+                <div class="detalle-seguimiento">
+                    <h4>Seguimiento</h4>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-badge warning">
+                                <i class="fas fa-exclamation"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <p><strong>Reporte creado</strong> - Pendiente de revisión</p>
+                                <small>15/03/2026 09:30</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-badge info">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <p><strong>Asignado a técnico</strong> - Luis Hernández</p>
+                                <small>15/03/2026 10:15</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detalle-acciones">
+                    <button class="btn-assign" onclick="asignarTecnico(1)">
+                        <i class="fas fa-user-plus"></i> Asignar Técnico
+                    </button>
+                    <button class="btn-complete" onclick="completarMantenimiento(1)">
+                        <i class="fas fa-check"></i> Marcar Completado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-bottom-nav">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+        <a href="usuarios.html"><i class="fas fa-users"></i><span>Usuarios</span></a>
+        <a href="equipos.html"><i class="fas fa-desktop"></i><span>Equipos</span></a>
+        <a href="mantenimiento.html" class="active"><i class="fas fa-tools"></i><span>Mant.</span></a>
+        <a href="#"><i class="fas fa-bell"></i><span>Notif.</span></a>
+    </div>
+
+    <script>
+        function openMantenimientoModal() {
+            document.getElementById('mantenimientoModal').style.display = 'flex';
+        }
+
+        function closeMantenimientoModal() {
+            document.getElementById('mantenimientoModal').style.display = 'none';
+        }
+
+        function viewMantenimiento(id) {
+            document.getElementById('detalleMantenimientoModal').style.display = 'flex';
+        }
+
+        function closeDetalleMantenimientoModal() {
+            document.getElementById('detalleMantenimientoModal').style.display = 'none';
+        }
+
+        function editMantenimiento(id) {
+            alert('Editar mantenimiento ID: ' + id);
+        }
+
+        function deleteMantenimiento(id) {
+            if(confirm('¿Está seguro de eliminar este reporte?')) {
+                alert('Reporte eliminado');
+            }
+        }
+
+        function asignarTecnico(id) {
+            alert('Asignar técnico al mantenimiento ID: ' + id);
+        }
+
+        function completarMantenimiento(id) {
+            if(confirm('¿Marcar este mantenimiento como completado?')) {
+                alert('Mantenimiento completado');
+                closeDetalleMantenimientoModal();
+            }
+        }
+
+        // Toggle sidebar
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Close modals
+        window.onclick = function(event) {
+            const mantenimientoModal = document.getElementById('mantenimientoModal');
+            const detalleModal = document.getElementById('detalleMantenimientoModal');
+            
+            if (event.target == mantenimientoModal) {
+                mantenimientoModal.style.display = 'none';
+            }
+            if (event.target == detalleModal) {
+                detalleModal.style.display = 'none';
+            }
+        }
+
+        // Form submit
+        document.getElementById('mantenimientoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Reporte de mantenimiento enviado');
+            closeMantenimientoModal();
+        });
+    </script>
+</body>
+</html>

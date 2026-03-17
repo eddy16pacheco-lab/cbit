@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>SIGACBIT - Equipos</title>
+    <link rel="stylesheet" href="css/equipos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <!-- Mismo sidebar que en usuarios.html -->
+        <div class="sidebar-header">
+            <i class="fas fa-laptop-code logo-icon"></i>
+            <span class="sidebar-title">SIGACBIT</span>
+        </div>
+
+        <div class="user-info">
+            <img src="https://ui-avatars.com/api/?name=Eddy+Pacheco&background=667eea&color=fff&size=128" alt="Avatar">
+            <div>
+                <span class="user-name">Eddy Pacheco</span>
+                <span class="user-role admin-role">Administrador</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="usuarios.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="equipos.html" class="nav-item active">
+                <i class="fas fa-desktop"></i>
+                <span>Equipos</span>
+            </a>
+            <a href="inventario.html" class="nav-item">
+                <i class="fas fa-boxes"></i>
+                <span>Inventario</span>
+            </a>
+            <a href="espacios.html" class="nav-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Espacios</span>
+            </a>
+            <a href="solicitudes.html" class="nav-item">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Solicitudes</span>
+            </a>
+            <a href="mantenimiento.html" class="nav-item">
+                <i class="fas fa-tools"></i>
+                <span>Mantenimiento</span>
+            </a>
+            <a href="reportes.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reportes</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+            <a href="login.html" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="main-content" id="mainContent">
+        <header class="top-bar">
+            <div class="page-title">
+                <h1><i class="fas fa-desktop"></i> Gestión de Equipos</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar equipos...">
+                </div>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Tabs para categorías -->
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="showTab('equipos')">
+                    <i class="fas fa-laptop"></i> Equipos
+                </button>
+                <button class="tab-btn" onclick="showTab('categorias')">
+                    <i class="fas fa-tags"></i> Categorías
+                </button>
+                <button class="tab-btn" onclick="showTab('marcas')">
+                    <i class="fas fa-building"></i> Marcas
+                </button>
+            </div>
+
+            <!-- Panel de Equipos -->
+            <div id="equipos-tab" class="tab-panel active">
+                <div class="actions-bar">
+                    <button class="btn-primary" onclick="openEquipoModal()">
+                        <i class="fas fa-plus-circle"></i>
+                        Nuevo Equipo
+                    </button>
+                    <div class="filters">
+                        <select class="filter-select" id="filterCategoria">
+                            <option value="">Todas las categorías</option>
+                            <option value="1">Computadora</option>
+                            <option value="2">Impresora</option>
+                            <option value="3">Proyector</option>
+                            <option value="4">Tablet</option>
+                        </select>
+                        <select class="filter-select" id="filterMarca">
+                            <option value="">Todas las marcas</option>
+                            <option value="1">Dell</option>
+                            <option value="2">HP</option>
+                            <option value="3">Lenovo</option>
+                            <option value="4">Epson</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container desktop-view">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Modelo</th>
+                                <th>Categoría</th>
+                                <th>Marca</th>
+                                <th>Total en Inventario</th>
+                                <th>Disponibles</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Computadora Escritorio</td>
+                                <td>OptiPlex 3080</td>
+                                <td><span class="category-badge">Computadora</span></td>
+                                <td>Dell</td>
+                                <td>3</td>
+                                <td><span class="stock-badge available">3</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit" onclick="editEquipo(1)"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view" onclick="viewInventario(1)"><i class="fas fa-boxes"></i></button>
+                                    <button class="action-btn delete" onclick="deleteEquipo(1)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Laptop Educativa</td>
+                                <td>Latitude 3420</td>
+                                <td><span class="category-badge">Computadora</span></td>
+                                <td>Dell</td>
+                                <td>3</td>
+                                <td><span class="stock-badge available">2</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-boxes"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Impresora Láser</td>
+                                <td>LaserJet M404dn</td>
+                                <td><span class="category-badge">Impresora</span></td>
+                                <td>HP</td>
+                                <td>2</td>
+                                <td><span class="stock-badge limited">1</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-boxes"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Proyector Multimedia</td>
+                                <td>PowerLite 1785W</td>
+                                <td><span class="category-badge">Proyector</span></td>
+                                <td>Epson</td>
+                                <td>2</td>
+                                <td><span class="stock-badge available">2</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-boxes"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tablet Educativa</td>
+                                <td>Tab M10</td>
+                                <td><span class="category-badge">Tablet</span></td>
+                                <td>Samsung</td>
+                                <td>3</td>
+                                <td><span class="stock-badge available">3</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view"><i class="fas fa-boxes"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cards-container mobile-view">
+                    <div class="equipo-card">
+                        <div class="card-header">
+                            <div class="equipo-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="equipo-info">
+                                <h3>Computadora Escritorio</h3>
+                                <p class="modelo">OptiPlex 3080</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p><i class="fas fa-tag"></i> <span class="category-badge">Computadora</span></p>
+                            <p><i class="fas fa-building"></i> Dell</p>
+                            <p><i class="fas fa-cubes"></i> Total: 3 unidades</p>
+                            <p><i class="fas fa-check-circle"></i> Disponibles: <span class="stock-badge available">3</span></p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="action-btn edit"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="action-btn view"><i class="fas fa-boxes"></i> Inventario</button>
+                            <button class="action-btn delete"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Categorías -->
+            <div id="categorias-tab" class="tab-panel">
+                <div class="actions-bar">
+                    <button class="btn-primary" onclick="openCategoriaModal()">
+                        <i class="fas fa-plus-circle"></i>
+                        Nueva Categoría
+                    </button>
+                </div>
+
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon" style="background: rgba(102, 126, 234, 0.1); color: #667eea;">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="category-info">
+                            <h4>Computadora</h4>
+                            <p>12 equipos</p>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn edit" onclick="editCategoria(1)"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete" onclick="deleteCategoria(1)"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon" style="background: rgba(46, 204, 113, 0.1); color: #2ecc71;">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <div class="category-info">
+                            <h4>Impresora</h4>
+                            <p>8 equipos</p>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon" style="background: rgba(241, 196, 15, 0.1); color: #f1c40f;">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="category-info">
+                            <h4>Proyector</h4>
+                            <p>5 equipos</p>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon" style="background: rgba(155, 89, 182, 0.1); color: #9b59b6;">
+                            <i class="fas fa-tablet-alt"></i>
+                        </div>
+                        <div class="category-info">
+                            <h4>Tablet</h4>
+                            <p>6 equipos</p>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Marcas -->
+            <div id="marcas-tab" class="tab-panel">
+                <div class="actions-bar">
+                    <button class="btn-primary" onclick="openMarcaModal()">
+                        <i class="fas fa-plus-circle"></i>
+                        Nueva Marca
+                    </button>
+                </div>
+
+                <div class="brands-grid">
+                    <div class="brand-card">
+                        <div class="brand-logo" style="background: #0076A8; color: white;">
+                            <span>DELL</span>
+                        </div>
+                        <div class="brand-info">
+                            <h4>Dell</h4>
+                            <p>15 equipos</p>
+                        </div>
+                        <div class="brand-actions">
+                            <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="brand-card">
+                        <div class="brand-logo" style="background: #0096D6; color: white;">
+                            <span>HP</span>
+                        </div>
+                        <div class="brand-info">
+                            <h4>HP</h4>
+                            <p>12 equipos</p>
+                        </div>
+                        <div class="brand-actions">
+                            <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="brand-card">
+                        <div class="brand-logo" style="background: #E2231A; color: white;">
+                            <span>EPSON</span>
+                        </div>
+                        <div class="brand-info">
+                            <h4>Epson</h4>
+                            <p>8 equipos</p>
+                        </div>
+                        <div class="brand-actions">
+                            <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Equipo -->
+    <div class="modal" id="equipoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-laptop"></i> Nuevo Equipo</h2>
+                <button class="close-modal" onclick="closeEquipoModal()">&times;</button>
+            </div>
+            <form id="equipoForm" class="modal-form">
+                <div class="form-group">
+                    <label for="nombre_equipo">Nombre del Equipo</label>
+                    <input type="text" id="nombre_equipo" placeholder="Ej: Computadora Escritorio" required>
+                </div>
+                <div class="form-group">
+                    <label for="modelo">Modelo</label>
+                    <input type="text" id="modelo" placeholder="Ej: OptiPlex 3080" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="1">Computadora</option>
+                            <option value="2">Impresora</option>
+                            <option value="3">Proyector</option>
+                            <option value="4">Tablet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="marca">Marca</label>
+                        <select id="marca" required>
+                            <option value="">Seleccionar marca</option>
+                            <option value="1">Dell</option>
+                            <option value="2">HP</option>
+                            <option value="3">Lenovo</option>
+                            <option value="4">Epson</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeEquipoModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Equipo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Categoría -->
+    <div class="modal" id="categoriaModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-tag"></i> Nueva Categoría</h2>
+                <button class="close-modal" onclick="closeCategoriaModal()">&times;</button>
+            </div>
+            <form id="categoriaForm" class="modal-form">
+                <div class="form-group">
+                    <label for="nombre_categoria">Nombre de la Categoría</label>
+                    <input type="text" id="nombre_categoria" placeholder="Ej: Computadora" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeCategoriaModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mobile-bottom-nav">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+        <a href="usuarios.html"><i class="fas fa-users"></i><span>Usuarios</span></a>
+        <a href="equipos.html" class="active"><i class="fas fa-desktop"></i><span>Equipos</span></a>
+        <a href="solicitudes.html"><i class="fas fa-clipboard-list"></i><span>Sol.</span></a>
+        <a href="#"><i class="fas fa-bell"></i><span>Notif.</span></a>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar el tab seleccionado
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function openEquipoModal() {
+            document.getElementById('equipoModal').style.display = 'flex';
+        }
+
+        function closeEquipoModal() {
+            document.getElementById('equipoModal').style.display = 'none';
+        }
+
+        function openCategoriaModal() {
+            document.getElementById('categoriaModal').style.display = 'flex';
+        }
+
+        function closeCategoriaModal() {
+            document.getElementById('categoriaModal').style.display = 'none';
+        }
+
+        function openMarcaModal() {
+            alert('Abrir modal de marca');
+        }
+
+        function editEquipo(id) {
+            alert('Editar equipo ID: ' + id);
+        }
+
+        function viewInventario(id) {
+            alert('Ver inventario del equipo ID: ' + id);
+        }
+
+        function deleteEquipo(id) {
+            if(confirm('¿Está seguro de eliminar este equipo?')) {
+                alert('Equipo eliminado ID: ' + id);
+            }
+        }
+
+        function editCategoria(id) {
+            alert('Editar categoría ID: ' + id);
+        }
+
+        function deleteCategoria(id) {
+            if(confirm('¿Está seguro de eliminar esta categoría?')) {
+                alert('Categoría eliminada ID: ' + id);
+            }
+        }
+
+        // Toggle sidebar
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const equipoModal = document.getElementById('equipoModal');
+            const categoriaModal = document.getElementById('categoriaModal');
+            
+            if (event.target == equipoModal) {
+                equipoModal.style.display = 'none';
+            }
+            if (event.target == categoriaModal) {
+                categoriaModal.style.display = 'none';
+            }
+        }
+
+        // Form submissions
+        document.getElementById('equipoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Equipo guardado exitosamente');
+            closeEquipoModal();
+        });
+
+        document.getElementById('categoriaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Categoría guardada exitosamente');
+            closeCategoriaModal();
+        });
+    </script>
+</body>
+</html>

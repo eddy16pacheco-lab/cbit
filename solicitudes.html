@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>SIGACBIT - Solicitudes</title>
+    <link rel="stylesheet" href="css/solicitudes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-laptop-code logo-icon"></i>
+            <span class="sidebar-title">SIGACBIT</span>
+        </div>
+
+        <div class="user-info">
+            <img src="https://ui-avatars.com/api/?name=Eddy+Pacheco&background=667eea&color=fff&size=128" alt="Avatar">
+            <div>
+                <span class="user-name">Eddy Pacheco</span>
+                <span class="user-role admin-role">Administrador</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="usuarios.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="equipos.html" class="nav-item">
+                <i class="fas fa-desktop"></i>
+                <span>Equipos</span>
+            </a>
+            <a href="inventario.html" class="nav-item">
+                <i class="fas fa-boxes"></i>
+                <span>Inventario</span>
+            </a>
+            <a href="espacios.html" class="nav-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Espacios</span>
+            </a>
+            <a href="solicitudes.html" class="nav-item active">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Solicitudes</span>
+            </a>
+            <a href="mantenimiento.html" class="nav-item">
+                <i class="fas fa-tools"></i>
+                <span>Mantenimiento</span>
+            </a>
+            <a href="reportes.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reportes</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+            <a href="login.html" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="main-content" id="mainContent">
+        <header class="top-bar">
+            <div class="page-title">
+                <h1><i class="fas fa-clipboard-list"></i> Solicitudes</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar solicitudes...">
+                </div>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Stats Cards -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">12</span>
+                        <span class="stat-label">Pendientes</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">28</span>
+                        <span class="stat-label">Aprobadas</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon cancelled">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">5</span>
+                        <span class="stat-label">Canceladas</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">45</span>
+                        <span class="stat-label">Totales</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions Bar -->
+            <div class="actions-bar">
+                <button class="btn-primary" onclick="openSolicitudModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    Nueva Solicitud
+                </button>
+                <div class="filters">
+                    <select class="filter-select" id="filterEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="Aprobado">Aprobado</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                    <select class="filter-select" id="filterTipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="espacio">Espacio</option>
+                        <option value="equipo">Equipo</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Desktop View -->
+            <div class="table-container desktop-view">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Tipo</th>
+                            <th>Recurso</th>
+                            <th>Actividad</th>
+                            <th>Fecha Solicitud</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#001</td>
+                            <td>Laura Díaz</td>
+                            <td><span class="type-badge space">Espacio</span></td>
+                            <td>Laboratorio A</td>
+                            <td>Taller de Robótica</td>
+                            <td>15/03/2026 21:10</td>
+                            <td><span class="status-badge approved">Aprobado</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" onclick="viewSolicitud(1)"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit" onclick="editSolicitud(1)"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete" onclick="deleteSolicitud(1)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#002</td>
+                            <td>Eddy Pacheco</td>
+                            <td><span class="type-badge equipment">Equipo</span></td>
+                            <td>3 Equipos</td>
+                            <td>Clase de Informática</td>
+                            <td>15/03/2026 21:10</td>
+                            <td><span class="status-badge pending">Pendiente</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#003</td>
+                            <td>María González</td>
+                            <td><span class="type-badge space">Espacio</span></td>
+                            <td>Aula Principal</td>
+                            <td>Clase de Informática</td>
+                            <td>14/03/2026 15:30</td>
+                            <td><span class="status-badge approved">Aprobado</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#004</td>
+                            <td>José Martínez</td>
+                            <td><span class="type-badge equipment">Equipo</span></td>
+                            <td>5 Laptops</td>
+                            <td>Taller de Programación</td>
+                            <td>14/03/2026 10:15</td>
+                            <td><span class="status-badge cancelled">Cancelado</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="cards-container mobile-view">
+                <div class="solicitud-card">
+                    <div class="card-header">
+                        <span class="solicitud-id">#001</span>
+                        <span class="status-badge approved">Aprobado</span>
+                    </div>
+                    <div class="card-body">
+                        <p><i class="fas fa-user"></i> Laura Díaz</p>
+                        <p><i class="fas fa-tag"></i> <span class="type-badge space">Espacio</span> Laboratorio A</p>
+                        <p><i class="fas fa-chalkboard-teacher"></i> Taller de Robótica</p>
+                        <p><i class="fas fa-calendar"></i> 15/03/2026 21:10</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="action-btn view"><i class="fas fa-eye"></i> Ver</button>
+                        <button class="action-btn edit"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="action-btn delete"><i class="fas fa-trash"></i> Eliminar</button>
+                    </div>
+                </div>
+
+                <div class="solicitud-card">
+                    <div class="card-header">
+                        <span class="solicitud-id">#002</span>
+                        <span class="status-badge pending">Pendiente</span>
+                    </div>
+                    <div class="card-body">
+                        <p><i class="fas fa-user"></i> Eddy Pacheco</p>
+                        <p><i class="fas fa-tag"></i> <span class="type-badge equipment">Equipo</span> 3 Equipos</p>
+                        <p><i class="fas fa-chalkboard-teacher"></i> Clase de Informática</p>
+                        <p><i class="fas fa-calendar"></i> 15/03/2026 21:10</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="action-btn view"><i class="fas fa-eye"></i> Ver</button>
+                        <button class="action-btn edit"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="action-btn delete"><i class="fas fa-trash"></i> Eliminar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Solicitud -->
+    <div class="modal" id="solicitudModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Nueva Solicitud</h2>
+                <button class="close-modal" onclick="closeSolicitudModal()">&times;</button>
+            </div>
+            <form id="solicitudForm" class="modal-form">
+                <div class="form-section">
+                    <h3>Información General</h3>
+                    <div class="form-group">
+                        <label for="tipo_solicitud">Tipo de Solicitud</label>
+                        <select id="tipo_solicitud" required onchange="toggleTipoSolicitud()">
+                            <option value="">Seleccionar...</option>
+                            <option value="espacio">Espacio</option>
+                            <option value="equipo">Equipo(s)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="actividad">Actividad</label>
+                        <select id="actividad" required>
+                            <option value="">Seleccionar actividad...</option>
+                            <option value="1">Clase de Informática</option>
+                            <option value="2">Taller de Programación</option>
+                            <option value="8">Taller de Robótica</option>
+                            <option value="9">Curso de Internet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sección para Espacio -->
+                <div id="espacio-section" class="form-section" style="display: none;">
+                    <h3>Seleccionar Espacio</h3>
+                    <div class="form-group">
+                        <label for="espacio">Espacio</label>
+                        <select id="espacio">
+                            <option value="">Seleccionar espacio...</option>
+                            <option value="11">Aula Principal</option>
+                            <option value="12">Laboratorio A</option>
+                            <option value="13">Laboratorio B</option>
+                            <option value="14">Sala de Proyectores</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Horarios Disponibles</label>
+                        <div class="horarios-grid">
+                            <label class="horario-item">
+                                <input type="checkbox" name="horario" value="4"> Lunes 08:00 - 10:00
+                            </label>
+                            <label class="horario-item">
+                                <input type="checkbox" name="horario" value="5"> Lunes 10:10 - 12:10
+                            </label>
+                            <label class="horario-item">
+                                <input type="checkbox" name="horario" value="6"> Martes 08:00 - 10:00
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección para Equipos -->
+                <div id="equipo-section" class="form-section" style="display: none;">
+                    <h3>Seleccionar Equipos</h3>
+                    <div class="equipos-selector">
+                        <div class="equipo-item">
+                            <input type="checkbox" id="equipo1" value="1">
+                            <label for="equipo1">
+                                <strong>Computadora Escritorio</strong>
+                                <small>Disponibles: 3</small>
+                            </label>
+                        </div>
+                        <div class="equipo-item">
+                            <input type="checkbox" id="equipo2" value="2">
+                            <label for="equipo2">
+                                <strong>Laptop Educativa</strong>
+                                <small>Disponibles: 2</small>
+                            </label>
+                        </div>
+                        <div class="equipo-item">
+                            <input type="checkbox" id="equipo3" value="3">
+                            <label for="equipo3">
+                                <strong>Proyector Multimedia</strong>
+                                <small>Disponibles: 2</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeSolicitudModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Solicitud -->
+    <div class="modal" id="detalleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-alt"></i> Detalle de Solicitud #001</h2>
+                <button class="close-modal" onclick="closeDetalleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detalle-info">
+                    <div class="info-row">
+                        <span class="info-label">Usuario:</span>
+                        <span class="info-value">Laura Díaz</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Fecha:</span>
+                        <span class="info-value">15/03/2026 21:10</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Estado:</span>
+                        <span class="status-badge approved">Aprobado</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Actividad:</span>
+                        <span class="info-value">Taller de Robótica</span>
+                    </div>
+                </div>
+
+                <div class="detalle-recursos">
+                    <h4>Recursos Solicitados</h4>
+                    <table class="recursos-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Recurso</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="type-badge space">Espacio</span></td>
+                                <td>Laboratorio A</td>
+                                <td>Lunes 08:00 - 10:00</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-badge equipment">Equipo</span></td>
+                                <td>Laptop Educativa</td>
+                                <td>Serial: DL-LAT-3420-001</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-badge equipment">Equipo</span></td>
+                                <td>Proyector Multimedia</td>
+                                <td>Serial: EP-PL-1785-001</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detalle-actions">
+                    <button class="btn-approve" onclick="aprobarSolicitud(1)">
+                        <i class="fas fa-check"></i> Aprobar
+                    </button>
+                    <button class="btn-reject" onclick="rechazarSolicitud(1)">
+                        <i class="fas fa-times"></i> Rechazar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-bottom-nav">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+        <a href="usuarios.html"><i class="fas fa-users"></i><span>Usuarios</span></a>
+        <a href="equipos.html"><i class="fas fa-desktop"></i><span>Equipos</span></a>
+        <a href="solicitudes.html" class="active"><i class="fas fa-clipboard-list"></i><span>Sol.</span></a>
+        <a href="#"><i class="fas fa-bell"></i><span>Notif.</span></a>
+    </div>
+
+    <script>
+        function toggleTipoSolicitud() {
+            const tipo = document.getElementById('tipo_solicitud').value;
+            document.getElementById('espacio-section').style.display = tipo === 'espacio' ? 'block' : 'none';
+            document.getElementById('equipo-section').style.display = tipo === 'equipo' ? 'block' : 'none';
+        }
+
+        function openSolicitudModal() {
+            document.getElementById('solicitudModal').style.display = 'flex';
+        }
+
+        function closeSolicitudModal() {
+            document.getElementById('solicitudModal').style.display = 'none';
+        }
+
+        function viewSolicitud(id) {
+            document.getElementById('detalleModal').style.display = 'flex';
+        }
+
+        function closeDetalleModal() {
+            document.getElementById('detalleModal').style.display = 'none';
+        }
+
+        function editSolicitud(id) {
+            alert('Editar solicitud ID: ' + id);
+        }
+
+        function deleteSolicitud(id) {
+            if(confirm('¿Está seguro de eliminar esta solicitud?')) {
+                alert('Solicitud eliminada');
+            }
+        }
+
+        function aprobarSolicitud(id) {
+            if(confirm('¿Aprobar esta solicitud?')) {
+                alert('Solicitud aprobada');
+                closeDetalleModal();
+            }
+        }
+
+        function rechazarSolicitud(id) {
+            if(confirm('¿Rechazar esta solicitud?')) {
+                alert('Solicitud rechazada');
+                closeDetalleModal();
+            }
+        }
+
+        // Toggle sidebar
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Close modals
+        window.onclick = function(event) {
+            const solicitudModal = document.getElementById('solicitudModal');
+            const detalleModal = document.getElementById('detalleModal');
+            
+            if (event.target == solicitudModal) {
+                solicitudModal.style.display = 'none';
+            }
+            if (event.target == detalleModal) {
+                detalleModal.style.display = 'none';
+            }
+        }
+
+        // Form submit
+        document.getElementById('solicitudForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Solicitud enviada exitosamente');
+            closeSolicitudModal();
+        });
+    </script>
+</body>
+</html>
